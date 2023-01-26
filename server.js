@@ -69,7 +69,6 @@ cities.forEach(async(element) => {
                 long:longi,
                 lat:lati
             });
-            console.log(weather1);
             //inserting data into our DataBase if there is any changes in temperature the data will be updated automatically
             Weather.updateOne({city:weather1.city},weather1,{upsert:true},function(err){
                 if(!err){
