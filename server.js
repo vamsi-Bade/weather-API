@@ -4,6 +4,7 @@ const bodyParser=require("body-parser");
 const app=express();
 const https=require('https');
 const path = require('path');
+const cors=require('cors');
 const { default: mongoose } = require("mongoose");
 const {reset}=require('nodemon');
 const { Http2ServerRequest } = require("http2");
@@ -13,6 +14,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended:true
 }));
+app.use(cors({
+  origin: '*'
+}));
+
+
+
+
+
 //Connecting with my mongo DB Atlas Dataada
 const mongoDB="mongodb+srv://admin-vamsi:vamsi123@cluster0.fsbdals.mongodb.net/WeatherDB";
 
@@ -44,7 +53,6 @@ cities=['mumbai','Delhi','Bangalore','Hyderabad','ahmedabad','Chennai','Kolkata'
 'patna','agra','Nashik','Faridabad','Meerut','Rajkot','Varanasi','Srinagar','Aurangabad','Amritsar','Ranchi','gaya','jammu','nellore'];
 
 cities.forEach(async(element) => {
-    const apikey="b6bb336b3c538e59013637f2a93e6faa";
     const url="https://api.openweathermap.org/data/2.5/weather?q="+element+"&appid="+apikey+"&units="+units+"";
     //Requesting data from API 
     https.get(url,function(response){
@@ -69,13 +77,9 @@ cities.forEach(async(element) => {
                 long:longi,
                 lat:lati
             });
-            console.log(weather1);
+            
             //inserting data into our DataBase if there is any changes in temperature the data will be updated automatically
-            Weather.updateOne({city:weather1.city},weather1,{upsert:true},function(err){
-                if(!err){
-                    console.log("inserted Successfully");
-                }
-            })
+            Weather.updateOne({city:weather1.city},weather1,{upsert:true});
             
         });
     });
@@ -86,7 +90,7 @@ cities.forEach(async(element) => {
 //The Get weathers function will be called every 10 minutes inorder to update the data
 setInterval(getWeathers,1000*60*10);
 
-//The get method which will be called for the given route 
+//The get method which will be called for the given 
 app.get("/api",async(req,res)=>{
     const { page = 1, limit = 10 } = req.query;
 
@@ -109,11 +113,6 @@ app.get("/api",async(req,res)=>{
     console.error(err.message);
   }
 })
-// All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/public', 'index.html'));
-  });
-  
 
 app.listen(5000,(req,res)=>{
     console.log("Server started at port 5000");
