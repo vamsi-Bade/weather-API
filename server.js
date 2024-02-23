@@ -79,7 +79,7 @@ cities.forEach(async(element) => {
             });
             
             //inserting data into our DataBase if there is any changes in temperature the data will be updated automatically
-            Weather.updateOne({city:weather1.city},weather1,{upsert:true});
+            Weather.updateOne({city:weather1.city},{ $set: { temp: weather1.temp, des:weather1.des, pressure:weather1.pressure, humidity:weather1.humidity } },{upsert:true});
             
         });
     });
@@ -96,6 +96,7 @@ app.get("/api",async(req,res)=>{
     getWeathers();
   try {
     // execute query with page and limit values
+    
     const weathers = await Weather.find()
       .limit(limit * 1)
       .skip((page - 1) * limit)
