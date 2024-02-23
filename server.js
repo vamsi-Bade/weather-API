@@ -93,7 +93,7 @@ setInterval(getWeathers,1000*60*10);
 //The get method which will be called for the given 
 app.get("/api",async(req,res)=>{
     const { page = 1, limit = 10 } = req.query;
-
+    getWeathers();
   try {
     // execute query with page and limit values
     const weathers = await Weather.find()
