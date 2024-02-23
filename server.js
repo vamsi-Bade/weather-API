@@ -44,7 +44,7 @@ const Weather=mongoose.model("Weather",weatherSchema);
 
 //getWeathers function will retrivet the weather data from Weather Map API and store it in our DataBase
 getWeathers=()=>{
-
+console.log("Get weathers is called");
 units="metric";
 const apikey="b6bb336b3c538e59013637f2a93e6faa";
 cities=['mumbai','Delhi','Bangalore','Hyderabad','ahmedabad','Chennai','Kolkata'
