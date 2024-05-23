@@ -24,7 +24,7 @@ app.use(
 
 //Connecting with my mongo DB Atlas Dataada
 const mongoDB =
-  "mongodb+srv://admin-vamsi:vamsi123@cluster0.fsbdals.mongodb.net/WeatherDB";
+  "mongodb+srv://admin-vamsi:vamsi1234@cluster0.fsbdals.mongodb.net/WeatherDB";
 
 mongoose.set("strictQuery", true);
 mongoose.connect(mongoDB, { useNewUrlParser: true });
